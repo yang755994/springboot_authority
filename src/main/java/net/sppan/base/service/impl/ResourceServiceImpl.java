@@ -1,10 +1,5 @@
 package net.sppan.base.service.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
-
 import net.sppan.base.dao.IResourceDao;
 import net.sppan.base.dao.support.IBaseDao;
 import net.sppan.base.entity.Resource;
@@ -13,13 +8,17 @@ import net.sppan.base.service.IResourceService;
 import net.sppan.base.service.IRoleService;
 import net.sppan.base.service.support.impl.BaseServiceImpl;
 import net.sppan.base.vo.ZtreeView;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 /**
  * <p>
@@ -29,7 +28,7 @@ import org.springframework.stereotype.Service;
  * @author SPPan
  * @since 2016-12-28
  */
-@Service
+@Service("resourceService")
 public class ResourceServiceImpl extends BaseServiceImpl<Resource, Integer>
 		implements IResourceService {
 

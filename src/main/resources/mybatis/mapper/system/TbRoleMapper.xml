@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.sppan.base.mapper.system.TbRoleMapper" >
+  <resultMap id="BaseResultMap" type="net.sppan.base.entity.system.TbRole" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="role_key" property="roleKey" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, create_time, description, name, role_key, status, update_time
+  </sql>
+  <sql id="condition" >
+    <if test="null!=params" >
+      <if test="null != params.id" >
+         and id = #{params.id,jdbcType=INTEGER}
+      </if>
+      <if test="null != params.createTime" >
+         and create_time = #{params.createTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="null != params.description and '' != params.description" >
+         and description = #{params.description,jdbcType=VARCHAR}
+      </if>
+      <if test="null != params.name and '' != params.name" >
+         and name = #{params.name,jdbcType=VARCHAR}
+      </if>
+      <if test="null != params.roleKey and '' != params.roleKey" >
+         and role_key = #{params.roleKey,jdbcType=VARCHAR}
+      </if>
+      <if test="null != params.status" >
+         and status = #{params.status,jdbcType=INTEGER}
+      </if>
+      <if test="null != params.updateTime" >
+         and update_time = #{params.updateTime,jdbcType=TIMESTAMP}
+      </if>
+    </if>
+  </sql>
+  <select id="get" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM tb_role
+    WHERE id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="count" resultType="java.lang.Integer" >
+    SELECT COUNT(1) as s FROM tb_role WHERE 1=1 
+    <include refid="condition" />
+  </select>
+  <select id="query" resultMap="BaseResultMap" parameterType="map" >
+    SELECT 
+    <include refid="Base_Column_List" />
+     FROM tb_role WHERE 1=1 
+    <include refid="condition" />
+     LIMIT #{page.startRowNum} ,#{page.pageSize} 
+  </select>
+  <select id="list" resultMap="BaseResultMap" parameterType="map" >
+    SELECT 
+    <include refid="Base_Column_List" />
+     FROM tb_role WHERE 1=1 
+    <include refid="condition" />
+  </select>
+  <delete id="delete" parameterType="java.lang.Integer" >
+    DELETE FROM tb_role
+    WHERE id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="save" parameterType="net.sppan.base.entity.system.TbRole" useGeneratedKeys="true" keyProperty="id" >
+    INSERT INTO tb_role
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="roleKey != null" >
+        role_key,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="roleKey != null" >
+        #{roleKey,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateSelective" parameterType="net.sppan.base.entity.system.TbRole" >
+    UPDATE tb_role
+    <set >
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="roleKey != null" >
+        role_key = #{roleKey,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    WHERE id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="update" parameterType="net.sppan.base.entity.system.TbRole" >
+    UPDATE tb_role
+    SET create_time = #{createTime,jdbcType=TIMESTAMP},
+      description = #{description,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      role_key = #{roleKey,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    WHERE id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="getRoleResources" parameterType="java.lang.Integer" resultType="java.util.List">
+    select resource_id from tb_role_resource where role_id = #{roleId}
+  </select>
+
+  <delete id="deleteResourcesByResourceId" parameterType="java.lang.Integer">
+    DELETE FROM tb_role_resource WHERE resource_id = #{id}
+  </delete>
+
+  <delete id="deleteResourcesByRoleId" parameterType="java.lang.Integer">
+    DELETE FROM tb_role_resource WHERE role_id = #{id}
+  </delete>
+
+  <delete id="deleteUserRolesByUserId" parameterType="java.lang.Integer">
+    DELETE FROM tb_user_role WHERE user_id = #{id}
+  </delete>
+
+  <insert id="batchInsertRoleResources" parameterType="java.util.List">
+    INSERT INTO tb_role_resource (role_id,resource_id)
+    VALUES(
+    <foreach collection="list" item="record" open="" close="" separator="),(">
+      #{record.roleId,jdbcType=INTEGER},#{record.resourceId,jdbcType=INTEGER}
+    </foreach>
+    )
+  </insert>
+  
+  <insert id="batchInsertUserRoles" parameterType="java.util.List">
+    INSERT INTO tb_user_role (user_id,role_id)
+    VALUES(
+    <foreach collection="list" item="record" open="" close="" separator="),(">
+      #{record.user_id,jdbcType=INTEGER},#{record.role_id,jdbcType=INTEGER}
+    </foreach>
+    )
+  </insert>
+</mapper>

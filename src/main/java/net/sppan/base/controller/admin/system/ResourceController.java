@@ -1,16 +1,12 @@
 package net.sppan.base.controller.admin.system;
 
-import java.util.List;
-
 import net.sppan.base.common.JsonResult;
 import net.sppan.base.controller.BaseController;
 import net.sppan.base.entity.Resource;
+import net.sppan.base.entity.system.TbResource;
 import net.sppan.base.service.IResourceService;
-import net.sppan.base.service.specification.SimpleSpecificationBuilder;
-import net.sppan.base.service.specification.SpecificationOperator.Operator;
+import net.sppan.base.service.ResourceService;
 import net.sppan.base.vo.ZtreeView;
-
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -20,11 +16,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @Controller
 @RequestMapping("/admin/resource")
 public class ResourceController extends BaseController {
 	@Autowired
 	private IResourceService resourceService;
+
+	@Autowired
+	private ResourceService resourceService2;
+
 	
 	@RequestMapping("/tree/{resourceId}")
 	@ResponseBody
@@ -41,13 +45,22 @@ public class ResourceController extends BaseController {
 	@RequestMapping("/list")
 	@ResponseBody
 	public Page<Resource> list() {
-		SimpleSpecificationBuilder<Resource> builder = new SimpleSpecificationBuilder<Resource>();
+		/*SimpleSpecificationBuilder<Resource> builder = new SimpleSpecificationBuilder<Resource>();
 		String searchText = request.getParameter("searchText");
 		if(StringUtils.isNotBlank(searchText)){
 			builder.add("name", Operator.likeAll.name(), searchText);
 		}
-		Page<Resource> page = resourceService.findAll(builder.generateSpecification(),getPageRequest());
-		return page;
+		Page<Resource> page = resourceService.findAll(builder.generateSpecification(),getPageRequest());*/
+		String sortName = request.getParameter("sortName");
+		String sortOrder = request.getParameter("sortOrder");
+		int page = Integer.parseInt(request.getParameter("pageNumber"));
+		int size = Integer.parseInt(request.getParameter("pageSize"));
+		Map<String, Object> params = new HashMap<>();
+		params.put("name", request.getParameter("searchText"));
+		params.put("sortName", sortName);
+		params.put("sortOrder", sortOrder);
+		Page<Resource> page2 = resourceService2.findAll(params, getPageRequest());
+		return page2;
 	}
 	
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
@@ -70,9 +83,9 @@ public class ResourceController extends BaseController {
 	
 	@RequestMapping(value= {"/edit"}, method = RequestMethod.POST)
 	@ResponseBody
-	public JsonResult edit(Resource resource,ModelMap map){
+	public JsonResult edit(TbResource resource, ModelMap map){
 		try {
-			resourceService.saveOrUpdate(resource);
+			resourceService2.saveOrUpdate(resource);
 		} catch (Exception e) {
 			return JsonResult.failure(e.getMessage());
 		}

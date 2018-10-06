@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.sppan.base.mapper.system.TbResourceMapper" >
+  <resultMap id="BaseResultMap" type="net.sppan.base.entity.system.TbResource" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="icon" property="icon" jdbcType="VARCHAR" />
+    <result column="is_hide" property="isHide" jdbcType="INTEGER" />
+    <result column="level" property="level" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="source_key" property="sourceKey" jdbcType="VARCHAR" />
+    <result column="source_url" property="sourceUrl" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="parent_id" property="parentId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, create_time, description, icon, is_hide, level, name, sort, source_key, source_url, 
+    type, update_time, parent_id
+  </sql>
+  <sql id="condition" >
+    <if test="null!=params" >
+      <if test="null != params.id" >
+         and id = #{params.id,jdbcType=INTEGER}
+      </if>
+      <if test="null != params.createTime" >
+         and create_time = #{params.createTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="null != params.description and '' != params.description" >
+         and description = #{params.description,jdbcType=VARCHAR}
+      </if>
+      <if test="null != params.icon and '' != params.icon" >
+         and icon = #{params.icon,jdbcType=VARCHAR}
+      </if>
+      <if test="null != params.isHide" >
+         and is_hide = #{params.isHide,jdbcType=INTEGER}
+      </if>
+      <if test="null != params.level" >
+         and level = #{params.level,jdbcType=INTEGER}
+      </if>
+      <if test="null != params.name and '' != params.name" >
+         and name = #{params.name,jdbcType=VARCHAR}
+      </if>
+      <if test="null != params.sort" >
+         and sort = #{params.sort,jdbcType=INTEGER}
+      </if>
+      <if test="null != params.sourceKey and '' != params.sourceKey" >
+         and source_key = #{params.sourceKey,jdbcType=VARCHAR}
+      </if>
+      <if test="null != params.sourceUrl and '' != params.sourceUrl" >
+         and source_url = #{params.sourceUrl,jdbcType=VARCHAR}
+      </if>
+      <if test="null != params.type" >
+         and type = #{params.type,jdbcType=INTEGER}
+      </if>
+      <if test="null != params.updateTime" >
+         and update_time = #{params.updateTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="null != params.parentId" >
+         and parent_id = #{params.parentId,jdbcType=INTEGER}
+      </if>
+      <if test="null != params.sortName and null != params.sortOrder">
+         ORDER BY ${params.sortName} ${params.sortOrder}
+      </if>
+    </if>
+  </sql>
+  <select id="get" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM tb_resource
+    WHERE id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="count" resultType="java.lang.Integer" >
+    SELECT COUNT(1) as s FROM tb_resource WHERE 1=1 
+    <include refid="condition" />
+  </select>
+  <select id="query" resultMap="BaseResultMap" parameterType="map" >
+    SELECT 
+    <include refid="Base_Column_List" />
+     FROM tb_resource WHERE 1=1 
+    <include refid="condition" />
+    /*order by create_time desc,update_time desc*/
+     LIMIT #{page.startRowNum} ,#{page.pageSize}
+  </select>
+  <select id="queryByPage" resultType="net.sppan.base.entity.system.TbResource">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM tb_resource WHERE 1=1
+    <include refid="condition" />
+    order by create_time desc,update_time desc
+  </select>
+  <select id="list" resultMap="BaseResultMap" parameterType="map" >
+    SELECT 
+    <include refid="Base_Column_List" />
+     FROM tb_resource WHERE 1=1 
+    <include refid="condition" />
+  </select>
+  <delete id="delete" parameterType="java.lang.Integer" >
+    DELETE FROM tb_resource
+    WHERE id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="save" parameterType="net.sppan.base.entity.system.TbResource" useGeneratedKeys="true" keyProperty="id" >
+    INSERT INTO tb_resource
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="icon != null" >
+        icon,
+      </if>
+      <if test="isHide != null" >
+        is_hide,
+      </if>
+      <if test="level != null" >
+        level,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+      <if test="sourceKey != null" >
+        source_key,
+      </if>
+      <if test="sourceUrl != null" >
+        source_url,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="parentId != null" >
+        parent_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null" >
+        #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="isHide != null" >
+        #{isHide,jdbcType=INTEGER},
+      </if>
+      <if test="level != null" >
+        #{level,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="sourceKey != null" >
+        #{sourceKey,jdbcType=VARCHAR},
+      </if>
+      <if test="sourceUrl != null" >
+        #{sourceUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="parentId != null" >
+        #{parentId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateSelective" parameterType="net.sppan.base.entity.system.TbResource" >
+    UPDATE tb_resource
+    <set >
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null" >
+        icon = #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="isHide != null" >
+        is_hide = #{isHide,jdbcType=INTEGER},
+      </if>
+      <if test="level != null" >
+        level = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="sourceKey != null" >
+        source_key = #{sourceKey,jdbcType=VARCHAR},
+      </if>
+      <if test="sourceUrl != null" >
+        source_url = #{sourceUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="parentId != null" >
+        parent_id = #{parentId,jdbcType=INTEGER},
+      </if>
+    </set>
+    WHERE id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="update" parameterType="net.sppan.base.entity.system.TbResource" >
+    UPDATE tb_resource
+    SET create_time = #{createTime,jdbcType=TIMESTAMP},
+      description = #{description,jdbcType=VARCHAR},
+      icon = #{icon,jdbcType=VARCHAR},
+      is_hide = #{isHide,jdbcType=INTEGER},
+      level = #{level,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=INTEGER},
+      source_key = #{sourceKey,jdbcType=VARCHAR},
+      source_url = #{sourceUrl,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      parent_id = #{parentId,jdbcType=INTEGER}
+    WHERE id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

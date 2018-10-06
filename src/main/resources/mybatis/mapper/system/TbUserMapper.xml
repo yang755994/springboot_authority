@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.sppan.base.mapper.system.TbUserMapper" >
+  <resultMap id="BaseResultMap" type="net.sppan.base.entity.system.TbUser" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="birthday" property="birthday" jdbcType="TIMESTAMP" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="delete_status" property="deleteStatus" jdbcType="INTEGER" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="locked" property="locked" jdbcType="INTEGER" />
+    <result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="INTEGER" />
+    <result column="telephone" property="telephone" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, address, birthday, create_time, delete_status, description, email, locked, nick_name, 
+    password, sex, telephone, update_time, user_name
+  </sql>
+  <sql id="condition" >
+    <if test="null!=params" >
+      <if test="null != params.id" >
+         and id = #{params.id,jdbcType=INTEGER}
+      </if>
+      <if test="null != params.address and '' != params.address" >
+         and address = #{params.address,jdbcType=VARCHAR}
+      </if>
+      <if test="null != params.birthday" >
+         and birthday = #{params.birthday,jdbcType=TIMESTAMP}
+      </if>
+      <if test="null != params.createTime" >
+         and create_time = #{params.createTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="null != params.deleteStatus" >
+         and delete_status = #{params.deleteStatus,jdbcType=INTEGER}
+      </if>
+      <if test="null != params.description and '' != params.description" >
+         and description = #{params.description,jdbcType=VARCHAR}
+      </if>
+      <if test="null != params.email and '' != params.email" >
+         and email = #{params.email,jdbcType=VARCHAR}
+      </if>
+      <if test="null != params.locked" >
+         and locked = #{params.locked,jdbcType=INTEGER}
+      </if>
+      <if test="null != params.nickName and '' != params.nickName" >
+         and nick_name = #{params.nickName,jdbcType=VARCHAR}
+      </if>
+      <if test="null != params.password and '' != params.password" >
+         and password = #{params.password,jdbcType=VARCHAR}
+      </if>
+      <if test="null != params.sex" >
+         and sex = #{params.sex,jdbcType=INTEGER}
+      </if>
+      <if test="null != params.telephone and '' != params.telephone" >
+         and telephone = #{params.telephone,jdbcType=VARCHAR}
+      </if>
+      <if test="null != params.updateTime" >
+         and update_time = #{params.updateTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="null != params.userName and '' != params.userName" >
+         and user_name = #{params.userName,jdbcType=VARCHAR}
+      </if>
+    </if>
+  </sql>
+  <select id="get" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM tb_user
+    WHERE id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="count" resultType="java.lang.Integer" >
+    SELECT COUNT(1) as s FROM tb_user WHERE 1=1 
+    <include refid="condition" />
+  </select>
+  <select id="query" resultMap="BaseResultMap" parameterType="map" >
+    SELECT 
+    <include refid="Base_Column_List" />
+     FROM tb_user WHERE 1=1 
+    <include refid="condition" />
+     LIMIT #{page.startRowNum} ,#{page.pageSize} 
+  </select>
+  <select id="list" resultMap="BaseResultMap" parameterType="map" >
+    SELECT 
+    <include refid="Base_Column_List" />
+     FROM tb_user WHERE 1=1 
+    <include refid="condition" />
+  </select>
+  <delete id="delete" parameterType="java.lang.Integer" >
+    DELETE FROM tb_user
+    WHERE id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="save" parameterType="net.sppan.base.entity.system.TbUser" useGeneratedKeys="true" keyProperty="id" >
+    INSERT INTO tb_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="birthday != null" >
+        birthday,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="deleteStatus != null" >
+        delete_status,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="locked != null" >
+        locked,
+      </if>
+      <if test="nickName != null" >
+        nick_name,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="telephone != null" >
+        telephone,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteStatus != null" >
+        #{deleteStatus,jdbcType=INTEGER},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="locked != null" >
+        #{locked,jdbcType=INTEGER},
+      </if>
+      <if test="nickName != null" >
+        #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="telephone != null" >
+        #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateSelective" parameterType="net.sppan.base.entity.system.TbUser" >
+    UPDATE tb_user
+    <set >
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        birthday = #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteStatus != null" >
+        delete_status = #{deleteStatus,jdbcType=INTEGER},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="locked != null" >
+        locked = #{locked,jdbcType=INTEGER},
+      </if>
+      <if test="nickName != null" >
+        nick_name = #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="telephone != null" >
+        telephone = #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    WHERE id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="update" parameterType="net.sppan.base.entity.system.TbUser" >
+    UPDATE tb_user
+    SET address = #{address,jdbcType=VARCHAR},
+      birthday = #{birthday,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      delete_status = #{deleteStatus,jdbcType=INTEGER},
+      description = #{description,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      locked = #{locked,jdbcType=INTEGER},
+      nick_name = #{nickName,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=INTEGER},
+      telephone = #{telephone,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      user_name = #{userName,jdbcType=VARCHAR}
+    WHERE id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
