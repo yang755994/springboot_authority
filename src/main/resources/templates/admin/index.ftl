@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="renderer" content="webkit">
 
-    <title> SPPanAdmin- 主页</title>
+    <title> Promotion Tools- 主页</title>
 
     <meta name="keywords" content="">
     <meta name="description" content="">
@@ -36,16 +36,16 @@
                                 <span class="clear">
                                     <span class="block m-t-xs" style="font-size:20px;">
                                         <i class="fa fa-area-chart"></i>
-                                        <strong class="font-bold">SPPanAdmin</strong>
+                                        <strong class="font-bold">营销平台工具</strong>
                                     </span>
                                 </span>
                             </a>
                         </div>
-                        <div class="logo-element">SPPanAdmin
+                        <div class="logo-element">PromotionTools
                         </div>
                     </li>
                     <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
-                        <span class="ng-scope">分类</span>
+                        <span class="ng-scope">promotion tools</span>
                     </li>
                     <li>
                         <a class="J_menuItem" href="${ctx!}/admin/welcome">

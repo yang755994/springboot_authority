@@ -2,9 +2,7 @@ package net.sppan.base.controller.admin.system;
 
 import net.sppan.base.common.JsonResult;
 import net.sppan.base.controller.BaseController;
-import net.sppan.base.entity.Resource;
 import net.sppan.base.entity.system.TbResource;
-import net.sppan.base.service.IResourceService;
 import net.sppan.base.service.ResourceService;
 import net.sppan.base.vo.ZtreeView;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +21,8 @@ import java.util.Map;
 @Controller
 @RequestMapping("/admin/resource")
 public class ResourceController extends BaseController {
-	@Autowired
-	private IResourceService resourceService;
+//	@Autowired
+//	private IResourceService resourceService;
 
 	@Autowired
 	private ResourceService resourceService2;
@@ -33,7 +31,7 @@ public class ResourceController extends BaseController {
 	@RequestMapping("/tree/{resourceId}")
 	@ResponseBody
 	public List<ZtreeView> tree(@PathVariable Integer resourceId){
-		List<ZtreeView> list = resourceService.tree(resourceId);
+		List<ZtreeView> list = resourceService2.tree(resourceId);
 		return list;
 	}
 	
@@ -44,7 +42,7 @@ public class ResourceController extends BaseController {
 
 	@RequestMapping("/list")
 	@ResponseBody
-	public Page<Resource> list() {
+	public Page<TbResource> list() {
 		/*SimpleSpecificationBuilder<Resource> builder = new SimpleSpecificationBuilder<Resource>();
 		String searchText = request.getParameter("searchText");
 		if(StringUtils.isNotBlank(searchText)){
@@ -59,13 +57,13 @@ public class ResourceController extends BaseController {
 		params.put("name", request.getParameter("searchText"));
 		params.put("sortName", sortName);
 		params.put("sortOrder", sortOrder);
-		Page<Resource> page2 = resourceService2.findAll(params, getPageRequest());
+		Page<TbResource> page2 = resourceService2.findAll(params, getPageRequest());
 		return page2;
 	}
-	
+
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public String add(ModelMap map) {
-		List<Resource> list = resourceService.findAll();
+		List<TbResource> list = resourceService2.findAll();
 		map.put("list", list);
 		return "admin/resource/form";
 	}
@@ -73,10 +71,10 @@ public class ResourceController extends BaseController {
 
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
 	public String edit(@PathVariable Integer id,ModelMap map) {
-		Resource resource = resourceService.find(id);
+		TbResource resource = resourceService2.find(id);
 		map.put("resource", resource);
 		
-		List<Resource> list = resourceService.findAll();
+		List<TbResource> list = resourceService2.findAll();
 		map.put("list", list);
 		return "admin/resource/form";
 	}
@@ -96,7 +94,7 @@ public class ResourceController extends BaseController {
 	@ResponseBody
 	public JsonResult delete(@PathVariable Integer id,ModelMap map) {
 		try {
-			resourceService.delete(id);
+			resourceService2.delete(id);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return JsonResult.failure(e.getMessage());

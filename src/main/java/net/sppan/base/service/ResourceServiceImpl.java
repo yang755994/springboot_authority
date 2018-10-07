@@ -12,6 +12,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -108,7 +109,7 @@ public class ResourceServiceImpl implements ResourceService {
 	}
 
 	@Override
-	public Page<Resource> findAll(Map<String, Object> params, PageRequest pageRequest) {
+	public Page<TbResource> findAll(Map<String, Object> params, PageRequest pageRequest) {
 		SimplePage page = new SimplePage();
 		page.setPageNo(pageRequest.getPageNumber());
 		page.setPageSize(pageRequest.getPageSize());
@@ -116,15 +117,24 @@ public class ResourceServiceImpl implements ResourceService {
 		List<Resource> resources = null;
 		List<TbResource> tbResources = tbResourceMapper.query(page, params);
 		if (CollectionUtils.isNotEmpty(tbResources)) {
-			resources = BeanConvertUtils.convertBeanList(tbResources, Resource.class);
-			resources.stream().forEach(r -> {
-				//r.setParent(BeanConvertUtils.convertBean(tbResourceMapper.get(r.getParentId()), Resource.class));
-			});
 			count = tbResourceMapper.count(params);
 		}
 
-
-		Page<Resource> results = new PageImpl<Resource>(resources, pageRequest, count);
+		                                        
+		Page<TbResource> results = new PageImpl<TbResource>(tbResources, pageRequest, count);
 		return results;
+	}
+
+	@Override
+	public List<TbResource> findAll() {
+		List<TbResource> tbResources = tbResourceMapper.list(null);
+		//return BeanConvertUtils.convertBeanList(tbResources, Resource.class);
+		return tbResources;
+	}
+
+	@Override
+	public TbResource find(Integer id) {
+		//return BeanConvertUtils.convertBean(tbResourceMapper.get(id), Resource.class);
+		return tbResourceMapper.get(id);
 	}
 }

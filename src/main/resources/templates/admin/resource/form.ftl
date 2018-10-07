@@ -47,7 +47,7 @@
                                 <div class="col-sm-8">
                                 	<select name="parent.id" class="form-control">
                                 		<#list list as r>
-                                			<option value="${r.id}" <#if resource.parent.id == r.id>selected="selected"</#if>>
+                                			<option value="${r.id}" <#if resource.parentId == r.id>selected="selected"</#if>>
                                 				<#if r.level == 1>|-<#elseif  r.level == 2>　|-<#else>　　|-</#if>${r.name}
                                 			</option>
                                 		</#list>

@@ -5,6 +5,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	welcome to
+	welcome to Promo Tools
 </body>
 </html>

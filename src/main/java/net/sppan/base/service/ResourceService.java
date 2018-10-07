@@ -1,6 +1,5 @@
 package net.sppan.base.service;
 
-import net.sppan.base.entity.Resource;
 import net.sppan.base.entity.system.TbResource;
 import net.sppan.base.vo.ZtreeView;
 import org.springframework.data.domain.Page;
@@ -26,5 +25,9 @@ public interface ResourceService {
 
 	void delete(Integer id);
 
-    Page<Resource> findAll(Map<String, Object> params, PageRequest pageRequest);
+    Page<TbResource> findAll(Map<String, Object> params, PageRequest pageRequest);
+
+	List<TbResource> findAll();
+
+	TbResource find(Integer id);
 }
