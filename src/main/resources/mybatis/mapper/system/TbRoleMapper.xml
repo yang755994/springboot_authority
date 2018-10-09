@@ -149,8 +149,13 @@
     WHERE id = #{id,jdbcType=INTEGER}
   </update>
 
-  <select id="getRoleResources" parameterType="java.lang.Integer" resultType="java.util.List">
+  <!-- 需要返回java.lang.String -->
+  <select id="getRoleResources" parameterType="java.lang.Integer" resultType="java.lang.String">
     select resource_id from tb_role_resource where role_id = #{roleId}
+  </select>
+
+  <select id="getUserRolesByUserId" parameterType="java.lang.Integer" resultType="java.lang.String">
+    select role_id from tb_user_role where `user_id` = #{id}
   </select>
 
   <delete id="deleteResourcesByResourceId" parameterType="java.lang.Integer">
@@ -178,7 +183,7 @@
     INSERT INTO tb_user_role (user_id,role_id)
     VALUES(
     <foreach collection="list" item="record" open="" close="" separator="),(">
-      #{record.user_id,jdbcType=INTEGER},#{record.role_id,jdbcType=INTEGER}
+      #{record.userId,jdbcType=INTEGER},#{record.roleId,jdbcType=INTEGER}
     </foreach>
     )
   </insert>

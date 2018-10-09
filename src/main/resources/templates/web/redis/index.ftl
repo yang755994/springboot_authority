@@ -79,6 +79,9 @@
                                             </tr>
                                             </thead>
                                             <tbody id="table_list_tbody">
+                                                <tr>
+                                                    <td colspan="11" align="center">没有找到匹配的记录</td>
+                                                </tr>
                                             </tbody>
 										</table>
 		                            </div>
@@ -86,6 +89,30 @@
 		                        <!-- End Example Card View -->
 		                    </div>
 	                    </div>
+                        <hr>
+                        <form class="form-inline form-horizontal pb30" id="priceBatchDelForm">
+                            <p>
+                            <div class="form-group mr20 mb10">
+                                <label for=" " class="mr5">商品(批量)</label>
+                                <div class="input-group">
+                                    <textarea class="col-sm-push-12" id="skus" name="skus"></textarea>
+                                </div>
+                                <label for=" " class="mr5">仓库编码</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="input-warehouseCode"
+                                           name="warehouseCode" value="" placeholder="请输入仓库编码">
+                                </div>
+                                <label for=" " class="mr5">渠道编码</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="input-pipelineCode" name="pipelineCode"
+                                           value="" placeholder="请输入渠道编码">
+                                </div>
+                                <div class="button-bar">
+                                    <button type="button" id="priceBatchDelBtn" class="btn btn-info">批量删除</button>
+                                </div>
+                            </div>
+                            </p>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -187,6 +214,28 @@
                 }
             });
 		});
+
+        $("#priceBatchDelBtn").bind("click", function () {
+            var queryJson = $('#priceBatchDelForm').serializeFormJSON();
+            $.ajax({
+                type: 'POST',
+                contentType: 'application/json',
+                url: '${ctx!}/web/redis/batchDelPrice',
+                data: JSON.stringify(queryJson),
+                dataType: 'json',
+                success: function (data) {
+                    if (data.code == '0') {
+                        layer.msg("缓存批量删除成功", {icon: 1, time: 1000});
+                    }
+                    else {
+                        layer.msg(data.message, {icon: 7, time: 1500});
+                    }
+                },
+                error: function () {
+                    layer.msg('接口调用异常', {icon: 2});
+                }
+            });
+        });
 	</script>
 
 	<#--<script>

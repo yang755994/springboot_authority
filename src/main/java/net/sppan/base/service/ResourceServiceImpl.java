@@ -114,7 +114,6 @@ public class ResourceServiceImpl implements ResourceService {
 		page.setPageNo(pageRequest.getPageNumber());
 		page.setPageSize(pageRequest.getPageSize());
 		int count = 0;
-		List<Resource> resources = null;
 		List<TbResource> tbResources = tbResourceMapper.query(page, params);
 		if (CollectionUtils.isNotEmpty(tbResources)) {
 			count = tbResourceMapper.count(params);

@@ -2,6 +2,10 @@ package net.sppan.base.service;
 
 import net.sppan.base.entity.User;
 import net.sppan.base.entity.system.TbUser;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+
+import java.util.Map;
 
 /**
  * 用户服务类
@@ -33,4 +37,7 @@ public interface UserService  {
 	 */
 	void grant(Integer id, String[] roleIds);
 
+	Page<TbUser> findAll(Map<String, Object> params, PageRequest pageRequest);
+
+	TbUser find(Integer id);
 }

@@ -1,7 +1,12 @@
 package net.sppan.base.entity.system;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import net.sppan.base.entity.Resource;
+
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 /**
  * 
@@ -17,6 +22,7 @@ public class TbRole implements Serializable {
     private Integer id;
 
     /**  */
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
     /**  */
@@ -32,7 +38,18 @@ public class TbRole implements Serializable {
     private Integer status;
 
     /**  */
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
+
+    private java.util.List<TbResource> resources;
+
+    public List<TbResource> getResources() {
+        return resources;
+    }
+
+    public void setResources(List<TbResource> resources) {
+        this.resources = resources;
+    }
 
     public Integer getId() {
         return id;

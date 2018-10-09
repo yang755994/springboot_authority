@@ -1,15 +1,19 @@
 package net.sppan.base.controller.admin.system;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import net.sppan.base.common.JsonResult;
 import net.sppan.base.controller.BaseController;
 import net.sppan.base.entity.Role;
 import net.sppan.base.entity.User;
+import net.sppan.base.entity.system.TbRole;
+import net.sppan.base.entity.system.TbUser;
+import net.sppan.base.entity.system.UserRole;
+import net.sppan.base.mapper.system.TbRoleMapper;
 import net.sppan.base.service.IRoleService;
 import net.sppan.base.service.IUserService;
+import net.sppan.base.service.RoleService;
+import net.sppan.base.service.UserService;
 import net.sppan.base.service.specification.SimpleSpecificationBuilder;
 import net.sppan.base.service.specification.SpecificationOperator.Operator;
 
@@ -32,6 +36,15 @@ public class UserController extends BaseController {
 	@Autowired
 	private IRoleService roleService;
 
+	@Autowired
+	private UserService userService2;
+
+	@Autowired
+	private TbRoleMapper tbRoleMapper;
+
+	@Autowired
+	private RoleService roleService2;
+
 	@RequestMapping(value = { "/", "/index" })
 	public String index() {
 		return "admin/user/index";
@@ -39,13 +52,22 @@ public class UserController extends BaseController {
 
 	@RequestMapping(value = { "/list" })
 	@ResponseBody
-	public Page<User> list() {
-		SimpleSpecificationBuilder<User> builder = new SimpleSpecificationBuilder<User>();
+	public Page<TbUser> list() {
+		/*SimpleSpecificationBuilder<User> builder = new SimpleSpecificationBuilder<User>();
 		String searchText = request.getParameter("searchText");
 		if(StringUtils.isNotBlank(searchText)){
 			builder.add("nickName", Operator.likeAll.name(), searchText);
 		}
-		Page<User> page = userService.findAll(builder.generateSpecification(), getPageRequest());
+		Page<User> page = userService.findAll(builder.generateSpecification(), getPageRequest());*/
+
+		String sortName = request.getParameter("sortName");
+		String sortOrder = request.getParameter("sortOrder");
+		Map<String, Object> params = new HashMap<>();
+		params.put("name", request.getParameter("searchText"));
+		params.put("description", request.getParameter("searchText"));
+		params.put("sortName", sortName);
+		params.put("sortOrder", sortOrder);
+		Page<TbUser> page = userService2.findAll(params, getPageRequest());
 		return page;
 	}
 	
@@ -56,16 +78,16 @@ public class UserController extends BaseController {
 
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
 	public String edit(@PathVariable Integer id,ModelMap map) {
-		User user = userService.find(id);
+		TbUser user = userService2.find(id);
 		map.put("user", user);
 		return "admin/user/form";
 	}
 	
 	@RequestMapping(value= {"/edit"} ,method = RequestMethod.POST)
 	@ResponseBody
-	public JsonResult edit(User user,ModelMap map){
+	public JsonResult edit(TbUser user,ModelMap map){
 		try {
-			userService.saveOrUpdate(user);
+			userService2.saveOrUpdate(user);
 		} catch (Exception e) {
 			return JsonResult.failure(e.getMessage());
 		}
@@ -76,7 +98,7 @@ public class UserController extends BaseController {
 	@ResponseBody
 	public JsonResult delete(@PathVariable Integer id,ModelMap map) {
 		try {
-			userService.delete(id);
+			userService2.delete(id);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return JsonResult.failure(e.getMessage());
@@ -86,17 +108,13 @@ public class UserController extends BaseController {
 	
 	@RequestMapping(value = "/grant/{id}", method = RequestMethod.GET)
 	public String grant(@PathVariable Integer id, ModelMap map) {
-		User user = userService.find(id);
+		TbUser user = userService2.find(id);
 		map.put("user", user);
 		
-		Set<Role> set = user.getRoles();
-		List<Integer> roleIds = new ArrayList<Integer>();
-		for (Role role : set) {
-			roleIds.add(role.getId());
-		}
+		List<Integer> roleIds = tbRoleMapper.getUserRolesByUserId(id);
 		map.put("roleIds", roleIds);
 		
-		List<Role> roles = roleService.findAll();
+		List<TbRole> roles = roleService2.findAll();
 		map.put("roles", roles);
 		return "admin/user/grant";
 	}
@@ -105,7 +123,7 @@ public class UserController extends BaseController {
 	@RequestMapping(value = "/grant/{id}", method = RequestMethod.POST)
 	public JsonResult grant(@PathVariable Integer id,String[] roleIds, ModelMap map) {
 		try {
-			userService.grant(id,roleIds);
+			userService2.grant(id,roleIds);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return JsonResult.failure(e.getMessage());

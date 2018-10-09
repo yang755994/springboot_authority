@@ -2,12 +2,18 @@ package net.sppan.base.service;
 
 import net.sppan.base.common.utils.MD5Utils;
 import net.sppan.base.entity.Role;
+import net.sppan.base.entity.system.TbResource;
+import net.sppan.base.entity.system.TbRole;
 import net.sppan.base.entity.system.TbUser;
 import net.sppan.base.entity.system.UserRole;
+import net.sppan.base.framework.SimplePage;
 import net.sppan.base.mapper.system.TbRoleMapper;
 import net.sppan.base.mapper.system.TbUserMapper;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -25,7 +31,7 @@ import java.util.Map;
  * @author SPPan
  * @since 2016-12-28
  */
-//@Service
+@Service("userService2")
 public class UserServiceImpl implements UserService {
 
 	@Autowired
@@ -98,5 +104,28 @@ public class UserServiceImpl implements UserService {
 		}
 		tbRoleMapper.batchInsertUserRoles(userRoles);
 	}
-	
+
+	@Override
+	public Page<TbUser> findAll(Map<String, Object> params, PageRequest pageRequest) {
+		SimplePage page = new SimplePage();
+		page.setPageNo(pageRequest.getPageNumber());
+		page.setPageSize(pageRequest.getPageSize());
+		int count = 0;
+		List<TbUser> tbUsers = tbUserMapper.query(page, params);
+		if (CollectionUtils.isNotEmpty(tbUsers)) {
+			count = tbUserMapper.count(params);
+		}
+
+
+		Page<TbUser> results = new PageImpl<TbUser>(tbUsers, pageRequest, count);
+		return results;
+	}
+
+	@Override
+	public TbUser find(Integer id) {
+		TbUser tbUser = tbUserMapper.get(id);
+		//java.util.List<TbRole> roles = tbRoleMapper.list(null);
+		return tbUser;
+	}
+
 }

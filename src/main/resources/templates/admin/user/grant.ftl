@@ -47,11 +47,14 @@
                                 <div class="col-sm-12">
                                     <div class="checkbox i-checks">
                                         <label>
-                                        	<#if roleIds?seq_contains(role.id)>
+                                            <input type="checkbox" value="${role.id}" name="roleIds"
+                                                   <#if roleIds?seq_contains("${role.id}")>checked="checked"</#if> >
+                                            <i></i> ${role.name}
+                                        	<#--<#if roleIds?seq_contains(role.id)>
                                             	<input type="checkbox" value="${role.id}" name="roleIds" checked="checked"> <i></i> ${role.name}
                                             <#else>
                                             	<input type="checkbox" value="${role.id}" name="roleIds"> <i></i> ${role.name}
-                                            </#if>
+                                            </#if>-->
                                         </label>
                                     </div>
                                 </div>

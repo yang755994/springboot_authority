@@ -1,5 +1,7 @@
 package net.sppan.base.entity.system;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -20,9 +22,11 @@ public class TbUser implements Serializable {
     private String address;
 
     /**  */
+    @JSONField(format = "yyyy-MM-dd")
     private Date birthday;
 
     /**  */
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
     /**  */
@@ -50,6 +54,7 @@ public class TbUser implements Serializable {
     private String telephone;
 
     /**  */
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
 
     /**  */

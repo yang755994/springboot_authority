@@ -66,7 +66,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">出生日期：</label>
                                 <div class="col-sm-8">
-                                    <input id="birthday" name="birthday" readonly="readonly" class="laydate-icon form-control layer-date" value="${user.birthday}">
+                                    <input id="birthday" name="birthday" readonly="readonly" class="laydate-icon form-control layer-date" value="${(user.birthday?string("yyyy-MM-dd"))!''}">
                                 </div>
                             </div>
                             <div class="form-group">

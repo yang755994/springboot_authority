@@ -86,12 +86,12 @@
                         <ul class="nav nav-second-level">
                         <#--<@shiro.hasPermission name="system:user:index">-->
                             <li>
-                                <a class="J_menuItem" href="${ctx!}/web/redis/index">缓存管理</a>
+                                <a class="J_menuItem" href="${ctx!}/web/redis/index">缓存工具</a>
                             </li>
                         <#--</@shiro.hasPermission>
                         <@shiro.hasPermission name="system:role:index">-->
                             <li>
-                                <a class="J_menuItem" href="${ctx!}/admin/role/index">角色管理</a>
+                                <a class="J_menuItem" href="${ctx!}/web/common/index">通用工具</a>
                             </li>
                         <#--</@shiro.hasPermission>
                         <@shiro.hasPermission name="system:resource:index">-->

@@ -1,6 +1,11 @@
 package net.sppan.base.service;
 
 import net.sppan.base.entity.system.TbRole;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+
+import java.util.List;
+import java.util.Map;
 
 
 public interface RoleService {
@@ -19,5 +24,10 @@ public interface RoleService {
 	 * @param resourceIds 资源ids
 	 */
 	void grant(Integer id, String[] resourceIds);
-	
+
+	Page<TbRole> findAll(Map<String, Object> params, PageRequest pageRequest);
+
+	TbRole find(Integer id);
+
+	List<TbRole> findAll();
 }

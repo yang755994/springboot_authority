@@ -57,4 +57,11 @@ public interface TbRoleMapper extends BaseMapper<TbRole> {
      * @return
      */
     int batchInsertUserRoles(List<UserRole> userRoles);
+
+    /**
+     * 获取UserRole
+     * @param id
+     * @return
+     */
+    List<Integer> getUserRolesByUserId(Integer id);
 }

@@ -7,6 +7,7 @@ import net.sppan.base.common.utils.ApiParamCheckUtil;
 import net.sppan.base.common.utils.FastJSONHelper;
 import net.sppan.base.service.RedisService;
 import net.sppan.base.vo.BasePriceRedis;
+import net.sppan.base.vo.BatchDelPriceRedis;
 import net.sppan.base.vo.PriceDto;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * redis
@@ -86,6 +90,27 @@ public class RedisController {
         try {
             String key = CacheKey.buildPriceKey(Constats.SITE_CODE, price.getPipelineCode(), price.getWarehouseCode(), price.getGoodSn());
             redisService.del(key);
+            return JsonResult.success();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return JsonResult.failure(e.getMessage());
+        }
+    }
+
+    @RequestMapping(value = "/batchDelPrice", method = RequestMethod.POST)
+    @ResponseBody
+    public JsonResult batchDelPrice(@RequestBody BatchDelPriceRedis batchPrice) {
+        String validate = ApiParamCheckUtil.checkParam(batchPrice);
+        if (StringUtils.isNotEmpty(validate)) {
+            return JsonResult.failure(validate);
+        }
+        try {
+            String skuStr = batchPrice.getSkus();
+            List<String> skus = Arrays.asList(skuStr.split(","));
+            for (String goodSn : skus) {
+                String key = CacheKey.buildPriceKey(Constats.SITE_CODE, batchPrice.getPipelineCode(), batchPrice.getWarehouseCode(), goodSn);
+                redisService.del(key);
+            }
             return JsonResult.success();
         } catch (Exception e) {
             e.printStackTrace();
